@@ -80,7 +80,9 @@ COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Configuración de PHP
 COPY docker/php.ini /usr/local/etc/php/conf.d/custom.ini
-
+# Forzar a PHP-FPM a escuchar en el puerto 9000
+RUN echo "[www]" > /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo "listen = 127.0.0.1:9000" >> /usr/local/etc/php-fpm.d/zz-docker.conf
 EXPOSE 80
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
